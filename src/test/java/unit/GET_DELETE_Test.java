@@ -22,7 +22,8 @@ public class GET_DELETE_Test
 	 * - base path = end-point = api/v1/products
 	 */
 
-	String baseUrl = "https://reqres.in/";
+	String baseUrl = "https://api.escuelajs.co/";
+	//String baseUrl = "https://reqres.in/";
 	String getAllProductsEndpoint = "api/users";
 	
 	@Test
@@ -31,6 +32,7 @@ public class GET_DELETE_Test
 	{
 		Response response = RestAssured.given().get("https://api.escuelajs.co/api/v1/products");
 		
+		// Pretty Print
 		response.prettyPrint();
 		System.out.println(String.format("Status Code : [%s] - %s" , response.getStatusCode(), "Success"));
 	}
