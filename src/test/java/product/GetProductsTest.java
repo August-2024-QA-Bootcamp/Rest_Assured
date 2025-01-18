@@ -9,9 +9,6 @@ import io.restassured.path.json.JsonPath;
 
 public class GetProductsTest extends RestStep
 {
-	
-	String endpoint = "api/v1/products";
-
 	@BeforeEach
 	public void testDataSetup() 
 	{
@@ -21,7 +18,7 @@ public class GetProductsTest extends RestStep
 	@Test
 	public void getProducts_happyPath() throws Exception 
 	{
-		apiGetStep(null, endpoint, null, 200, null);
+		apiGetStep(null, GET_PRODUCTS, null, 200, null);
 		
 		// DTO - Data Table Object
 		Product[] products = getResponse().as(Product[].class);

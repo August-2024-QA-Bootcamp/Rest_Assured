@@ -32,11 +32,7 @@ public class GET_DELETE_Test
 	{
 		Response response = RestAssured.given().get("https://api.escuelajs.co/api/v1/products");
 		
-<<<<<<< HEAD
-		// New Line
-=======
 		// Pretty Print
->>>>>>> develop
 		response.prettyPrint();
 		System.out.println(String.format("Status Code : [%s] - %s" , response.getStatusCode(), "Success"));
 	}
