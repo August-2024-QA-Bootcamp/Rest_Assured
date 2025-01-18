@@ -6,9 +6,45 @@ import java.util.List;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-public class MiscTest 
-{
+import util.EnvConfiguration;
+import util.EnvKey;
 
+public class MiscTest
+{
+	
+	char i;
+	//String aString;
+	
+	@Test
+	@Disabled
+	public void default_value_test() {
+		System.out.println(i); // Primitive type
+		//System.out.println(aString); // Object
+	}
+	
+	@Test
+	@Disabled
+	public void env_configuration() 
+	{
+		EnvConfiguration envConfiguration = new EnvConfiguration();
+		System.out.println(envConfiguration.getUrl());
+	}
+	
+
+	@Test
+	@Disabled
+	public void envKeyTest() 
+	{
+		EnvKey[] envKeys = EnvKey.values();
+		
+		for(EnvKey key : envKeys) 
+		{
+			System.out.println(key.getKey());
+		}
+		
+		System.out.println(EnvKey.BASE_URL.getKey());
+	}
+	
 	@Test
 	@Disabled
 	public void stringSplitTest() {
@@ -29,6 +65,7 @@ public class MiscTest
 	
 	
 	@Test
+	@Disabled
 	public void stringRegexTest() {
 		String string = "abcd%?123DftS*";
 		System.out.println(parseStringOnly(string));

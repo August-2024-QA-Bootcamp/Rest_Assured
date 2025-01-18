@@ -2,6 +2,22 @@ package dto;
 
 public class Product 
 {
+	public Product(int id, String title, int price, String description, String[] images, String creationAt,
+			String updatedAt, Category category) {
+		super();
+		this.id = id;
+		this.title = title;
+		this.price = price;
+		this.description = description;
+		this.images = images;
+		this.creationAt = creationAt;
+		this.updatedAt = updatedAt;
+		this.category = category;
+	}
+
+	public Product() {
+	}
+	
 	private int id;
 	private String title;
 	private int price;
@@ -10,6 +26,8 @@ public class Product
 	private String creationAt;
 	private String updatedAt;
 	private Category category;
+	
+	
 	
 	public int getId() {
 		return id;

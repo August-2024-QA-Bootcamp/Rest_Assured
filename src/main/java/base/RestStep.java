@@ -3,19 +3,23 @@ package base;
 import java.util.ArrayList;
 import java.util.List;
 
+import endpoint.IEndpoint;
 import io.restassured.RestAssured;
 import io.restassured.http.Header;
 import io.restassured.http.Headers;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
+import util.EnvConfiguration;
 
 /**
  * @author Enthrall2025
  */
-public abstract class RestStep 
+public abstract class RestStep implements IEndpoint
 {
 	RequestSpecification request;
 	Response response;
+	
+	EnvConfiguration envConfiguration = new EnvConfiguration();
 	
 	/**
 	 * Initializing Rest-Assured RequestSpecification {@link #request}
@@ -23,6 +27,7 @@ public abstract class RestStep
 	public void init() 
 	{
 		request = RestAssured.given();
+		setBaseUrl();
 	}
 	
 	/**
@@ -34,9 +39,12 @@ public abstract class RestStep
 		return response;
 	}
 	
+	/**
+	 * Set the base URL from environment configuration
+	 */
 	public void setBaseUrl() 
 	{
-		request.baseUri("https://api.escuelajs.co/");
+		request.baseUri(envConfiguration.getUrl());
 	}
 	
 	/**
@@ -146,7 +154,32 @@ public abstract class RestStep
 		 * statusMessage - 
 		 */
 		
-		setBaseUrl();
+		setHeaders(headers);
+		setEndpoint(endpoint);
+		setParams(endpoint, params);
+		
+		response = request.log().all().get();
+		response.then().log().all();
+		
+		validateStatusCode(stausCode);
+		validateStatusLine(statusMessage);
+		
+		return response;
+	}
+	
+	/**
+	 * Build a GET API Request
+	 * @param headers {@link Headers}
+	 * @param endpoint API End-point
+	 * @param params Path Params
+	 * @param stausCode expected status code
+	 * @param statusMessage expected status message
+	 * @return {@link #response}
+	 * @throws Exception if path params do not have same size at end-point
+	 */
+	public Response apiPostStep(Headers headers, String endpoint, Object body, Object[] params, 
+			int stausCode, String statusMessage) throws Exception 
+	{	
 		setHeaders(headers);
 		setEndpoint(endpoint);
 		setParams(endpoint, params);
