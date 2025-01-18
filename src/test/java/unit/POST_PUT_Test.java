@@ -18,6 +18,14 @@ import io.restassured.response.Response;
 
 public class POST_PUT_Test {
 
+	
+	/*
+	 * 1. Test Data Creation (USER)
+	 * 2. Request building
+	 * 3. Response object Mapping (USER)
+	 * 4. Assertion
+	 */
+	
 	String baseUrl = "https://reqres.in/";
 	String basePath = "api/users";
 	
