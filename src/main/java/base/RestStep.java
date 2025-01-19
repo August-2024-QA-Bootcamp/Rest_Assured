@@ -3,7 +3,6 @@ package base;
 import java.util.ArrayList;
 import java.util.List;
 
-import endpoint.IEndpoint;
 import io.restassured.RestAssured;
 import io.restassured.http.Header;
 import io.restassured.http.Headers;
@@ -14,7 +13,7 @@ import util.EnvConfiguration;
 /**
  * @author Enthrall2025
  */
-public abstract class RestStep implements IEndpoint
+public abstract class RestStep
 {
 	RequestSpecification request;
 	Response response;
@@ -111,8 +110,11 @@ public abstract class RestStep implements IEndpoint
 			// Find out the expected params from the end-point
 			for (String s : arr) 
 			{
+				System.out.println(s);
 				if (s.startsWith("{") && s.endsWith("}")) {
-					paramNames.add(s.replaceAll("[^A-Za-z0-9]", s));
+					String updated = s.replaceAll("[^A-Za-z0-9]", "");
+//					System.out.println("Updated - " + updated);
+					paramNames.add(updated);
 				}
 			}
 
@@ -122,6 +124,8 @@ public abstract class RestStep implements IEndpoint
 				throw new Exception("Given params are not mtching with endpint expected params");
 			}
 
+//			System.out.println(paramNames);
+			
 			int index = 0;
 			// Assign params
 			for (Object param : params) 
@@ -130,67 +134,6 @@ public abstract class RestStep implements IEndpoint
 				index++;
 			}
 		}
-	}
-	
-	/**
-	 * Build a GET API Request
-	 * @param headers {@link Headers}
-	 * @param endpoint API End-point
-	 * @param params Path Params
-	 * @param stausCode expected status code
-	 * @param statusMessage expected status message
-	 * @return {@link #response}
-	 * @throws Exception if path params do not have same size at end-point
-	 */
-	public Response apiGetStep(Headers headers, String endpoint, Object[] params, 
-			int stausCode, String statusMessage) throws Exception 
-	{
-		
-		/*
-		 * Headers - DONE
-		 * End-point - DONE
-		 * Params - DONE
-		 * statusCode - DONE
-		 * statusMessage - 
-		 */
-		
-		setHeaders(headers);
-		setEndpoint(endpoint);
-		setParams(endpoint, params);
-		
-		response = request.log().all().get();
-		response.then().log().all();
-		
-		validateStatusCode(stausCode);
-		validateStatusLine(statusMessage);
-		
-		return response;
-	}
-	
-	/**
-	 * Build a GET API Request
-	 * @param headers {@link Headers}
-	 * @param endpoint API End-point
-	 * @param params Path Params
-	 * @param stausCode expected status code
-	 * @param statusMessage expected status message
-	 * @return {@link #response}
-	 * @throws Exception if path params do not have same size at end-point
-	 */
-	public Response apiPostStep(Headers headers, String endpoint, Object body, Object[] params, 
-			int stausCode, String statusMessage) throws Exception 
-	{	
-		setHeaders(headers);
-		setEndpoint(endpoint);
-		setParams(endpoint, params);
-		
-		response = request.log().all().get();
-		response.then().log().all();
-		
-		validateStatusCode(stausCode);
-		validateStatusLine(statusMessage);
-		
-		return response;
 	}
 	
 	/**

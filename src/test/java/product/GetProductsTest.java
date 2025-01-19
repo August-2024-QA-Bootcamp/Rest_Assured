@@ -1,31 +1,45 @@
 package product;
 
-import org.junit.jupiter.api.BeforeEach;
+import java.util.Arrays;
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 
-import base.RestStep;
+import base.ApiGetStep;
 import dto.Product;
+import endpoint.IEndpoint;
 import io.restassured.path.json.JsonPath;
 
-public class GetProductsTest extends RestStep
-{
-	@BeforeEach
-	public void testDataSetup() 
-	{
-		init();
-	}
+public class GetProductsTest
+{	
+	/*
+	 * Ques - How you parse response from an API request?
+	 * Ans - We have created DTO (Data Table Object) / POJO (Plain Old Java Object)
+	 * from swagger (APIM) schema. then we do object mapping from response
+	 * 
+	 */
+	
 	
 	@Test
 	public void getProducts_happyPath() throws Exception 
 	{
-		apiGetStep(null, GET_PRODUCTS, null, 200, null);
+		ApiGetStep step = new ApiGetStep();
+		step.get(null, IEndpoint.GET_PRODUCTS, null, 200, null);
 		
-		// DTO - Data Table Object
-		Product[] products = getResponse().as(Product[].class);
+		// DTO - Data Table Object / Object Mapping
+		Product[] products = step.getResponse().as(Product[].class);
 		System.out.println(products[0].getDescription());
 		
+		// Array to List
+		List<Product> listOfProducts = Arrays.asList(products);
+		System.out.println(listOfProducts.get(0).getDescription());
 		
-		JsonPath jPath = JsonPath.from(getResponse().asString());
+		// Json Path parser
+		JsonPath jPath = JsonPath.from(step.getResponse().asString());
 		System.out.println(jPath.getString("[0].description"));
+		
+		// Schema validation
+		// Status Code
+		// Actual List == Expected List (DB)
 	}
 }
