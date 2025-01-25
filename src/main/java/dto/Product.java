@@ -1,40 +1,90 @@
 package dto;
 
-public class Product 
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DynamicNode;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+import static org.junit.jupiter.api.DynamicTest.dynamicTest;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class Product extends Common
 {
-	public Product(int id, String title, int price, String description, String[] images, String creationAt,
-			String updatedAt, Category category) {
-		super();
-		this.id = id;
+	public Product(String title, int price, String description, String[] images, Category category) {
 		this.title = title;
 		this.price = price;
 		this.description = description;
 		this.images = images;
-		this.creationAt = creationAt;
-		this.updatedAt = updatedAt;
 		this.category = category;
 	}
 
 	public Product() {
 	}
 	
-	private int id;
 	private String title;
 	private int price;
 	private String description;
 	private String[] images;
-	private String creationAt;
-	private String updatedAt;
 	private Category category;
+	private int categoryId;
 	
 	
-	
-	public int getId() {
-		return id;
+	@Override
+	public boolean equals(Object object) {
+		
+		if (object instanceof Product) 
+		{
+			Product product = (Product) object;
+			
+			if(this.getId() == product.getId()) 
+			{
+				return true;
+			}
+		}
+		
+		return false;
 	}
 	
-	public void setId(int id) {
-		this.id = id;
+	
+	// JUnit5 Style
+	public List<DynamicNode> compare(Product product)
+	{
+		List<DynamicNode> tests = new LinkedList<DynamicNode>();
+		
+		tests.add(dynamicTest("ID - ["+this.getId()+"]", () -> 
+			assertEquals(this.getId(), product.getId(), "ID Mismatched")));
+		
+		tests.add(dynamicTest("Title - ["+title+"]", () -> 
+			assertEquals(title, product.getTitle(), "Title Mismatched")));
+		
+		tests.add(dynamicTest("Description - ["+description+"]", () -> 
+			assertEquals(description, product.getDescription(), "Description Mismatched")));
+		
+		List<String> actualImages = Arrays.asList(getImages());
+		List<String> expectedImages = Arrays.asList(product.getImages());
+		
+		tests.add(dynamicTest("Images - ["+getImages()+"]", () -> 
+			Assertions.assertIterableEquals(expectedImages, actualImages)));
+		
+		tests.add(dynamicTest("Category - ["+category+"]", () -> 
+			assertEquals(category, product.getCategory(), "Category Mismatched")));
+		
+		tests.add(dynamicTest("CreationAt - ["+this.getCreationAt()+"]", () -> 
+			assertEquals(this.getCreationAt(), product.getCreationAt(), "ID Mismatched")));
+	
+		tests.add(dynamicTest("UpdatedAt - ["+this.getUpdatedAt()+"]", () -> 
+			assertEquals(this.getUpdatedAt(), product.getUpdatedAt(), "Title Mismatched")));
+		
+		// TestNG
+		//Assert.assertEquals(this.getId(), product.getId());
+		
+		return tests;
 	}
 	
 	public String getTitle() {
@@ -69,28 +119,21 @@ public class Product
 		this.images = images;
 	}
 	
-	public String getCreationAt() {
-		return creationAt;
-	}
-	
-	public void setCreationAt(String creationAt) {
-		this.creationAt = creationAt;
-	}
-	
-	public String getUpdatedAt() {
-		return updatedAt;
-	}
-	
-	public void setUpdatedAt(String updatedAt) {
-		this.updatedAt = updatedAt;
-	}
-	
 	public Category getCategory() {
 		return category;
 	}
 	
 	public void setCategory(Category category) {
 		this.category = category;
+	}
+	
+	
+	public int getCategoryId() {
+		return categoryId;
+	}
+	
+	public void setCategoryId(int categoryId) {
+		this.categoryId = categoryId;
 	}
 	
 }
