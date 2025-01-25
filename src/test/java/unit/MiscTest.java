@@ -118,7 +118,7 @@ public class MiscTest
 	@Test
 	public void testSetParamMethod() throws Exception {
 		ApiGetStep step = new ApiGetStep();
-		step.setParams(IEndpoint.GET_PRODUCT, new Object[] {51});
+		step.setParams(IEndpoint.GET_PRODUCT_BY_ID, new Object[] {51});
 		
 		String endString = "{id}";
 		System.out.println(endString.replaceAll("[^A-Za-z0-9]", ""));

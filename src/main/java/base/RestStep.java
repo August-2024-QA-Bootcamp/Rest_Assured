@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
 import io.restassured.http.Header;
 import io.restassured.http.Headers;
 import io.restassured.response.Response;
@@ -134,6 +135,33 @@ public abstract class RestStep
 				index++;
 			}
 		}
+	}
+	
+	/**
+	 * 
+	 * @param contentType {@link ContentType}
+	 */
+	public void setContentType(ContentType contentType) 
+	{
+		request.contentType(contentType);
+	}
+	
+	/**
+	 * 
+	 * @param contentType String
+	 */
+	public void setContentType(String contentType) 
+	{
+		request.contentType(contentType);
+	}
+	
+	/**
+	 * 
+	 * @param object Payload
+	 */
+	public void setBody(Object object) 
+	{
+		request.body(object);
 	}
 	
 	/**

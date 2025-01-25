@@ -28,8 +28,9 @@ public class ApiPostStep extends RestStep
 		setHeaders(headers);
 		setEndpoint(endpoint);
 		setParams(endpoint, params);
+		setBody(body);
 		
-		response = request.log().all().get();
+		response = request.log().all().post();
 		response.then().log().all();
 		
 		validateStatusCode(stausCode);
